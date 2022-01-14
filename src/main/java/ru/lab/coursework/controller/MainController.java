@@ -25,12 +25,12 @@ public class MainController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/completed-tasks") //Получение списка ЗАВЕРШЕННЫХ заданий todo мб не будет работать
+    @GetMapping("/completed-tasks") //Получение списка ЗАВЕРШЕННЫХ заданий
     public ResponseEntity getTasksCompleted() {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/actual-tasks") //Получение списка заданий постранично (в конце если успеешь) todo мб не будет работать
+    @GetMapping("/actual-tasks") //Получение списка заданий постранично (в конце если успеешь)
     public ResponseEntity getTasksActual() {
         return new ResponseEntity(HttpStatus.OK);
     }

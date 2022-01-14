@@ -3,6 +3,7 @@ package ru.lab.coursework.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "rd_user")

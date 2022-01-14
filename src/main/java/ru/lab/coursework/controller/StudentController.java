@@ -2,10 +2,8 @@ package ru.lab.coursework.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.lab.coursework.dto.IdRequestDTO;
 
 @RestController
 @RequestMapping(value = "/student")
@@ -27,7 +25,7 @@ public class StudentController {
     }
 
     @PostMapping("/delete-session") //Удалить сессию чтения
-    public ResponseEntity deleteSession() {
+    public ResponseEntity deleteSession(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -42,7 +40,7 @@ public class StudentController {
     }
 
     @PostMapping("/delete-diary") //Удалить дневник
-    public ResponseEntity deleteDiary() {
+    public ResponseEntity deleteDiary(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(HttpStatus.OK);
     }
 }
