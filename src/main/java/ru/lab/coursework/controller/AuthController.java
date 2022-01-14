@@ -24,16 +24,18 @@ public class AuthController {
 
     @GetMapping("/sign-in") //войти
     public ResponseEntity<SignInResponseDTO> login(@RequestBody SignInRequestDTO signInRequestDTO) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(authService.getAccount(signInRequestDTO), HttpStatus.OK);
     }
 
     @GetMapping("/sign-out") //выйти
     public ResponseEntity logout() {
+        //todo потом надо сделать
         return new ResponseEntity(HttpStatus.OK); //сбросить токен
     }
 
     @PostMapping("/disable") //сделать неактивным
     public ResponseEntity setDisabled() {
+        //todo потом надо сделать
         return new ResponseEntity(HttpStatus.OK);
     }
 }

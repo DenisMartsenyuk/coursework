@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/main")
 public class MainController {
 
-    @GetMapping("/diaries") //получить все сформированные дневники
+    @GetMapping("/diaries") //получить все сформированные дневники по id студента (получить все репорты а потом исходя из этого все дневники
     public ResponseEntity getDiaries() {
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -25,12 +25,12 @@ public class MainController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/tasks/completed") //Получение списка ЗАВЕРШЕННЫХ заданий todo мб не будет работать
+    @GetMapping("/completed-tasks") //Получение списка ЗАВЕРШЕННЫХ заданий todo мб не будет работать
     public ResponseEntity getTasksCompleted() {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/tasks/actual/") //Получение списка заданий постранично (в конце если успеешь) todo мб не будет работать
+    @GetMapping("/actual-tasks") //Получение списка заданий постранично (в конце если успеешь) todo мб не будет работать
     public ResponseEntity getTasksActual() {
         return new ResponseEntity(HttpStatus.OK);
     }

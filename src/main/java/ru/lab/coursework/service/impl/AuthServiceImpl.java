@@ -55,7 +55,21 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public SignInResponseDTO getAccount(SignInRequestDTO signInRequestDTO) {
-        return new SignInResponseDTO();
+        User user = userRepository.findUserByLogin(signInRequestDTO.getLogin());
+
+        SignInResponseDTO signInResponseDTO = new SignInResponseDTO();
+        signInResponseDTO.setId(user.getId());
+        signInResponseDTO.setName(user.getName());
+        signInResponseDTO.setSurname(user.getSurname());
+        signInResponseDTO.setMiddleName(user.getMiddleName());
+        signInResponseDTO.setEmail(user.getEmail());
+
+        UserRole userRole = userRoleRepository.findUserRoleByUser(user);
+        Role role = userRole.getRole();
+
+        signInResponseDTO.setRole(role.getName());
+
+        return signInResponseDTO;
     }
 
 

@@ -18,6 +18,7 @@ public class ParentController {
 
     @PostMapping("/delete-child") //Удалить ребенка
     public ResponseEntity deleteChild() {
+        //todo сделать потом
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -5,19 +5,17 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "rd_user")
+@Table(name = "rd_author")
 @Data
-public class User {
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "login")
-    private String login;
-
-    @Column(name = "password")
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private User parent;
 
     @Column(name = "name")
     private String name;
@@ -27,7 +25,4 @@ public class User {
 
     @Column(name = "middle_name")
     private String middleName;
-
-    @Column(name = "email")
-    private String email;
 }
