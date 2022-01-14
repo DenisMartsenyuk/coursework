@@ -6,5 +6,6 @@ import ru.lab.coursework.model.Author;
 import java.util.List;
 
 public interface AuthorRepository  extends JpaRepository<Author, Long> {
-    List<Author> findAuthorByParentId(Long id);
+    List<Author> findAuthorsByParentId(Long id);
+    Author findAuthorById(Long id);
 }

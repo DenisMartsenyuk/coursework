@@ -6,5 +6,6 @@ import ru.lab.coursework.model.Writing;
 import java.util.List;
 
 public interface WritingRepository  extends JpaRepository<Writing, Long> {
-    List<Writing> findWritingByParentId(Long id);
+    List<Writing> findWritingsByParentId(Long id);
+    Writing findWritingById(Long id);
 }

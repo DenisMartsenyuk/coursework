@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.lab.coursework.dto.AuthorResponseDTO;
-import ru.lab.coursework.dto.ChildResponseDTO;
-import ru.lab.coursework.dto.IdRequestDTO;
-import ru.lab.coursework.dto.WritingResponseDto;
+import ru.lab.coursework.dto.*;
 import ru.lab.coursework.service.ParentService;
 
 import java.util.List;
@@ -30,7 +27,7 @@ public class ParentController {
     }
 
     @GetMapping("/writings") //Получить список произведений
-    public ResponseEntity<List<WritingResponseDto>> getWritings(@RequestBody IdRequestDTO idRequestDTO) {
+    public ResponseEntity<List<WritingResponseDTO>> getWritings(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(parentService.getWritings(idRequestDTO),HttpStatus.OK);
     }
 
@@ -41,32 +38,38 @@ public class ParentController {
     }
 
     @PostMapping("/save-author") //Сохранить автора произведения (Добавить либо обновить, если есть)
-    public ResponseEntity saveAuthor() {
+    public ResponseEntity saveAuthor(@RequestBody AuthorSaveRequestDTO authorSaveRequestDTO) {
+        parentService.saveAuthor(authorSaveRequestDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/delete-author") //Удалить автора произведения
     public ResponseEntity deleteAuthor(@RequestBody IdRequestDTO idRequestDTO) {
+        parentService.deleteAuthor(idRequestDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/save-writing") //Сохранить произведение (Добавить либо обновить, если есть)
-    public ResponseEntity saveWriting() {
+    public ResponseEntity saveWriting(@RequestBody WritingSaveRequestDTO writingSaveRequestDTO) {
+        parentService.saveWriting(writingSaveRequestDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/delete-writing") //Удалить произведение
     public ResponseEntity deleteWriting(@RequestBody IdRequestDTO idRequestDTO) {
+        parentService.deleteWriting(idRequestDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/save-task") //Сохранить задание (Добавить либо обновить, если есть)
-    public ResponseEntity saveTask() {
+    public ResponseEntity saveTask(@RequestBody ReadingTaskSaveRequestDTO readingTaskSaveRequestDTO) {
+        parentService.saveTask(readingTaskSaveRequestDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/delete-task") //Удалить задание
     public ResponseEntity deleteTask(@RequestBody IdRequestDTO idRequestDTO) {
+        parentService.deleteTask(idRequestDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class WritingResponseDto {
+public class WritingResponseDTO {
     Long id;
     String name;
     AuthorResponseDTO author;
