@@ -1,32 +1,30 @@
 package ru.lab.coursework.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.lab.coursework.model.User;
-import ru.lab.coursework.service.UserService;
+import ru.lab.coursework.dto.SignInRequestDTO;
+import ru.lab.coursework.dto.SignInResponseDTO;
+import ru.lab.coursework.dto.SignUpRequestDTO;
+import ru.lab.coursework.dto.SignUpResponseDTO;
+import ru.lab.coursework.service.AuthService;
 
 @RestController
 @RequestMapping(value = "/account")
+@RequiredArgsConstructor
 public class AuthController {
 
-    private final UserService userService;
-
-    @Autowired
-    AuthController(UserService userService) {
-        this.userService = userService;
-    }
+    private final AuthService authService;
 
     @PostMapping("/sign-up") //регистрация
-    public ResponseEntity register() {
-        userService.addNewAccount();
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<SignUpResponseDTO> register(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+        return new ResponseEntity<>(authService.addNewAccount(signUpRequestDTO), HttpStatus.OK);
     }
 
     @GetMapping("/sign-in") //войти
-    public ResponseEntity<User> login() {
-        return new ResponseEntity<>(userService.getAccount("e", "1"), HttpStatus.OK);
+    public ResponseEntity<SignInResponseDTO> login(@RequestBody SignInRequestDTO signInRequestDTO) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/sign-out") //выйти

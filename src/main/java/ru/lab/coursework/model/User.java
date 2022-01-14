@@ -1,9 +1,9 @@
 package ru.lab.coursework.model;
 
 import lombok.Data;
-import lombok.Generated;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "rd_user")
@@ -27,7 +27,7 @@ public class User {
     private String surname;
 
     @Column(name = "middle_name")
-    private String middle_name;
+    private String middleName;
 
     @Column(name = "email")
     private String email;
