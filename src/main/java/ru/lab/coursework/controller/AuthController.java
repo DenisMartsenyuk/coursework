@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.lab.coursework.dto.SignInRequestDTO;
-import ru.lab.coursework.dto.SignInResponseDTO;
-import ru.lab.coursework.dto.SignUpRequestDTO;
-import ru.lab.coursework.dto.SignUpResponseDTO;
+import ru.lab.coursework.dto.*;
 import ru.lab.coursework.service.AuthService;
 
 @RestController
@@ -31,6 +28,18 @@ public class AuthController {
     public ResponseEntity logout() {
         //todo потом надо сделать
         return new ResponseEntity(HttpStatus.OK); //сбросить токен
+    }
+
+    @PostMapping("/connect") //соединить родителя и ребенка
+    public ResponseEntity connect(@RequestBody ConnectionRequestDTO connectionRequestDTO) {
+        authService.connect(connectionRequestDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/disconnect") //отсоеденить родителя и ребенка
+    public ResponseEntity disconnect(@RequestBody ConnectionRequestDTO connectionRequestDTO) {
+        authService.disconnect(connectionRequestDTO);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/disable") //сделать неактивным

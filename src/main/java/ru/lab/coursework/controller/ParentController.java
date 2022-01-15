@@ -31,12 +31,6 @@ public class ParentController {
         return new ResponseEntity(parentService.getWritings(idRequestDTO),HttpStatus.OK);
     }
 
-    @PostMapping("/delete-child") //Удалить ребенка
-    public ResponseEntity deleteChild() {
-        //todo сделать потом
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @PostMapping("/save-author") //Сохранить автора произведения (Добавить либо обновить, если есть)
     public ResponseEntity saveAuthor(@RequestBody AuthorSaveRequestDTO authorSaveRequestDTO) {
         parentService.saveAuthor(authorSaveRequestDTO);

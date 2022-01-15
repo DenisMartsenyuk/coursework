@@ -3,8 +3,10 @@ package ru.lab.coursework.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.lab.coursework.dto.IdRequestDTO;
 
 @RestController
 @RequestMapping(value = "/main")
@@ -15,13 +17,13 @@ public class MainController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/review") //Получить отчет о прочтении
-    public ResponseEntity getReview() {
+    @GetMapping("/report") //Получить отчет о прочтении
+    public ResponseEntity getReport() {
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/tasks") //Получение списка заданий
-    public ResponseEntity getTasks() {
+    public ResponseEntity getTasks(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(HttpStatus.OK);
     }
 

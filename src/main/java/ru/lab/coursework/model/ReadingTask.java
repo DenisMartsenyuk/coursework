@@ -27,7 +27,7 @@ public class ReadingTask {
     private Writing writing;
 
     @Column(name = "deadline")
-    private Timestamp deadline; //todo мб нет
+    private Timestamp deadline;
 
     @Column(name = "completed")
     private Boolean completed;

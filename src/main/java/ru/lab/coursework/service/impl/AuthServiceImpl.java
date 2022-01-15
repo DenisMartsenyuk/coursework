@@ -1,16 +1,13 @@
 package ru.lab.coursework.service.impl;
 
-//бизнеслогика аккаунта
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.lab.coursework.dto.SignInRequestDTO;
-import ru.lab.coursework.dto.SignInResponseDTO;
-import ru.lab.coursework.dto.SignUpRequestDTO;
-import ru.lab.coursework.dto.SignUpResponseDTO;
+import ru.lab.coursework.dto.*;
+import ru.lab.coursework.model.ParentStudent;
 import ru.lab.coursework.model.Role;
 import ru.lab.coursework.model.User;
 import ru.lab.coursework.model.UserRole;
+import ru.lab.coursework.repository.ParentStudentRepository;
 import ru.lab.coursework.repository.RoleRepository;
 import ru.lab.coursework.repository.UserRepository;
 import ru.lab.coursework.repository.UserRoleRepository;
@@ -23,6 +20,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final ParentStudentRepository parentStudentRepository;
 
     @Override
     public SignUpResponseDTO addNewAccount(SignUpRequestDTO signUpRequestDTO) {
@@ -70,6 +68,19 @@ public class AuthServiceImpl implements AuthService {
         signInResponseDTO.setRole(role.getName());
 
         return signInResponseDTO;
+    }
+
+    @Override
+    public void connect(ConnectionRequestDTO connectionRequestDTO) {
+        ParentStudent parentStudent = new ParentStudent();
+        parentStudent.setParent(userRepository.findUserById(connectionRequestDTO.getParentId()));
+        parentStudent.setStudent(userRepository.findUserById(connectionRequestDTO.getStudentId()));
+        parentStudentRepository.save(parentStudent);
+    }
+
+    @Override
+    public void disconnect(ConnectionRequestDTO connectionRequestDTO) {
+        parentStudentRepository.deleteParentStudentByParentIdAndStudentId(connectionRequestDTO.getParentId(), connectionRequestDTO.getStudentId());
     }
 
 

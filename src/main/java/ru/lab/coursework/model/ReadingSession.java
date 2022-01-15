@@ -23,9 +23,9 @@ public class ReadingSession {
     private ReadingTask readingTask;
 
     @Column(name = "reading_start")
-    private Timestamp reading_start;
+    private Timestamp readingStart;
 
     @Column(name = "reading_end")
-    private Timestamp reading_end;
+    private Timestamp readingEnd;
 
 }
