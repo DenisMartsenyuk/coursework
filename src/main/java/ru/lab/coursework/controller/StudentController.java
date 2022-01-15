@@ -31,7 +31,8 @@ public class StudentController {
 
     @PostMapping("/save-report") //Сохранить отчет о прочтении
     public ResponseEntity saveReport(@RequestBody ReportSaveRequestDTO reportSaveRequestDTO) {
-        studentService.saveReport(reportSaveRequestDTO); //todo еще не реализовано
+        studentService.saveReport(reportSaveRequestDTO);
+        //todo еще не реализовано
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -32,8 +32,8 @@ public class Report {
     private String review;
 
     @Column(name = "creation_date")
-    private Timestamp creation_date;
+    private Timestamp creationDate;
 
     @Column(name = "edit_date")
-    private Timestamp edit_date;
+    private Timestamp editDate;
 }

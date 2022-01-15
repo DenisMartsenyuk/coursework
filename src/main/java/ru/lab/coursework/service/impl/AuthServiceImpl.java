@@ -80,7 +80,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void disconnect(ConnectionRequestDTO connectionRequestDTO) {
-        parentStudentRepository.deleteParentStudentByParentIdAndStudentId(connectionRequestDTO.getParentId(), connectionRequestDTO.getStudentId());
+        ParentStudent parentStudent = parentStudentRepository.findParentStudentByParentIdAndStudentId(connectionRequestDTO.getParentId(), connectionRequestDTO.getStudentId());
+        parentStudentRepository.delete(parentStudent);
     }
 
 

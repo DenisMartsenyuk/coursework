@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.lab.coursework.dto.IdRequestDTO;
 import ru.lab.coursework.dto.ReadingSessionResponseDTO;
 import ru.lab.coursework.dto.ReadingTaskResponseDTO;
+import ru.lab.coursework.dto.ReportResponseDTO;
 import ru.lab.coursework.service.MainService;
 
 import java.util.List;
@@ -23,12 +24,13 @@ public class MainController {
 
     @GetMapping("/diaries") //получить все сформированные дневники по id студента (получить все репорты а потом исходя из этого все дневники
     public ResponseEntity getDiaries() {
+        //todo сделать
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/report") //Получить отчет о прочтении
-    public ResponseEntity getReport() {
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<ReportResponseDTO> getReport(@RequestBody IdRequestDTO idRequestDTO) {
+        return new ResponseEntity<>(mainService.getReport(idRequestDTO), HttpStatus.OK);
     }
 
     @GetMapping("/actual-tasks") //Получение списка заданий
