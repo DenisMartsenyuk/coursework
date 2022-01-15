@@ -1,15 +1,17 @@
 package ru.lab.coursework.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Date;
 import java.sql.Time;
 
 @Data
-public class ReadingSessionSaveRequestDTO {
-    Long studentId;
-    Long readingTaskId;
+@Builder
+public class ReadingSessionResponseDTO {
+    Long id;
     Date date;
     Time readingStart;
     Time readingEnd;
+    Time duration;
 }

@@ -3,7 +3,8 @@ package ru.lab.coursework.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity
 @Table(name = "rd_reading_session")
@@ -22,10 +23,13 @@ public class ReadingSession {
     @JoinColumn(name = "reading_task_id")
     private ReadingTask readingTask;
 
+    @Column(name = "date")
+    private Date date;
+
     @Column(name = "reading_start")
-    private Timestamp readingStart;
+    private Time readingStart;
 
     @Column(name = "reading_end")
-    private Timestamp readingEnd;
+    private Time readingEnd;
 
 }

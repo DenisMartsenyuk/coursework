@@ -76,8 +76,9 @@ CREATE TABLE rd_reading_session
     id              SERIAL PRIMARY KEY,
     student_id      INTEGER REFERENCES rd_user ON DELETE CASCADE ON UPDATE CASCADE         NOT NULL,
     reading_task_id INTEGER REFERENCES rd_reading_task ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
-    reading_start   timestamp with time zone                                               NOT NULL,
-    reading_end     timestamp with time zone                                               NOT NULL
+    date            date                                                                   NOT NULL,
+    reading_start   time without time zone                                                 NOT NULL,
+    reading_end     time without time zone                                                 NOT NULL
 );
 
 

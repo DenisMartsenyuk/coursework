@@ -24,6 +24,7 @@ public class StudentServiceImpl implements StudentService {
         ReadingSession readingSession = new ReadingSession();
         readingSession.setStudent(userRepository.findUserById(readingSessionSaveRequestDTO.getStudentId()));
         readingSession.setReadingTask(readingTaskRepository.findReadingTaskById(readingSessionSaveRequestDTO.getReadingTaskId()));
+        readingSession.setDate(readingSessionSaveRequestDTO.getDate());
         readingSession.setReadingStart(readingSessionSaveRequestDTO.getReadingStart());
         readingSession.setReadingEnd(readingSessionSaveRequestDTO.getReadingEnd());
         readingSessionRepository.save(readingSession);
