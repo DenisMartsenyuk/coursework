@@ -6,8 +6,11 @@ import ru.lab.coursework.dto.IdRequestDTO;
 import ru.lab.coursework.dto.ReadingSessionSaveRequestDTO;
 import ru.lab.coursework.dto.ReportSaveRequestDTO;
 import ru.lab.coursework.model.ReadingSession;
+import ru.lab.coursework.model.Report;
 import ru.lab.coursework.repository.*;
 import ru.lab.coursework.service.StudentService;
+
+import java.sql.Timestamp;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +40,18 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void saveReport(ReportSaveRequestDTO reportSaveRequestDTO) {
-//        Report report = reportRepository;
-        //todo что-то сделать туть
+        Report report = reportRepository.findReportByReadingTaskId(reportSaveRequestDTO.getReadingTaskId());
+        if (report == null) {
+            report = new Report();
+            report.setStudent(readingTaskRepository.findReadingTaskById(reportSaveRequestDTO.getReadingTaskId()).getStudent());
+            report.setReadingTask(readingTaskRepository.findReadingTaskById(reportSaveRequestDTO.getReadingTaskId()));
+            report.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        }
+        report.setCharacters(reportSaveRequestDTO.getCharacters());
+        report.setPlot(reportSaveRequestDTO.getPlot());
+        report.setReview(reportSaveRequestDTO.getReview());
+        report.setEditDate(new Timestamp(System.currentTimeMillis()));
+        reportRepository.save(report);
     }
 
     @Override
