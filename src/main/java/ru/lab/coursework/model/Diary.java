@@ -14,9 +14,13 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private User student;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "creation_date")
-    private Timestamp creation_date;
+    private Timestamp creationDate;
 }

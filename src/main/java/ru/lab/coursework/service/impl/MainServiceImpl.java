@@ -2,16 +2,12 @@ package ru.lab.coursework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.lab.coursework.dto.IdRequestDTO;
-import ru.lab.coursework.dto.ReadingSessionResponseDTO;
-import ru.lab.coursework.dto.ReadingTaskResponseDTO;
-import ru.lab.coursework.dto.ReportResponseDTO;
+import ru.lab.coursework.dto.*;
+import ru.lab.coursework.model.Diary;
 import ru.lab.coursework.model.ReadingSession;
 import ru.lab.coursework.model.ReadingTask;
 import ru.lab.coursework.model.Report;
-import ru.lab.coursework.repository.ReadingSessionRepository;
-import ru.lab.coursework.repository.ReadingTaskRepository;
-import ru.lab.coursework.repository.ReportRepository;
+import ru.lab.coursework.repository.*;
 import ru.lab.coursework.service.MainService;
 
 import java.sql.Time;
@@ -27,6 +23,14 @@ public class MainServiceImpl implements MainService {
     private final ReadingTaskRepository readingTaskRepository;
     private final ReadingSessionRepository readingSessionRepository;
     private final ReportRepository reportRepository;
+    private final DiaryRepository diaryRepository;
+    private final DiaryFileRepository diaryFileRepository;
+
+    @Override
+    public List<DiaryResponseDto> getDiaries(IdRequestDTO idRequestDTO) {
+        List<Diary> diaries = diaryRepository.findDiariesByStudentId(idRequestDTO.getId());
+        return diaries.stream().map(x -> DiaryResponseDto.builder().id(x.getId()).name(x.getName()).creationDate(x.getCreationDate()).link(diaryFileRepository.findByDiaryId(x.getId()).getPath()).build()).collect(Collectors.toList());
+    }
 
     @Override
     public ReportResponseDTO getReport(IdRequestDTO idRequestDTO) {
@@ -47,8 +51,21 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public List<ReadingSessionResponseDTO> getStatistic(IdRequestDTO idRequestDTO) {
+    public List<ReadingSessionResponseDTO> getReadingSessions(IdRequestDTO idRequestDTO) {
         List<ReadingSession> readingSessions = readingSessionRepository.findReadingSessionsByReadingTaskId(idRequestDTO.getId());
         return readingSessions.stream().map(x -> ReadingSessionResponseDTO.builder().id(x.getId()).date(x.getDate()).readingStart(x.getReadingStart()).readingEnd(x.getReadingEnd()).duration(Time.valueOf(LocalTime.MIDNIGHT.plus(Duration.between(x.getReadingStart().toLocalTime(), x.getReadingEnd().toLocalTime())))).build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public ReadingTaskDetailsResponseDTO getReadingTaskDetails(IdRequestDTO idRequestDTO) {
+        ReadingTask readingTask = readingTaskRepository.findReadingTaskById(idRequestDTO.getId());
+        ReadingTaskDetailsResponseDTO readingTaskDetailsResponseDTO = new ReadingTaskDetailsResponseDTO();
+        List<ReadingSession> readingSessions = readingSessionRepository.findReadingSessionsByReadingTaskId(idRequestDTO.getId());
+        readingTaskDetailsResponseDTO.setId(readingTask.getId());
+        readingTaskDetailsResponseDTO.setName(readingTask.getWriting().getName());
+        readingTaskDetailsResponseDTO.setAuthor(readingTask.getWriting().getAuthor().getName() + " " + readingTask.getWriting().getAuthor().getSurname() + " " + (readingTask.getWriting().getAuthor().getMiddleName() == null ? "" : readingTask.getWriting().getAuthor().getMiddleName()));
+        readingTaskDetailsResponseDTO.setDeadline(readingTask.getDeadline());
+        readingTaskDetailsResponseDTO.setSessions(readingSessions.stream().map(x -> ReadingSessionResponseDTO.builder().id(x.getId()).date(x.getDate()).readingStart(x.getReadingStart()).readingEnd(x.getReadingEnd()).duration(Time.valueOf(LocalTime.MIDNIGHT.plus(Duration.between(x.getReadingStart().toLocalTime(), x.getReadingEnd().toLocalTime())))).build()).collect(Collectors.toList()));
+        return readingTaskDetailsResponseDTO;
     }
 }

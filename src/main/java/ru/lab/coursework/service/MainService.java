@@ -1,14 +1,13 @@
 package ru.lab.coursework.service;
 
-import ru.lab.coursework.dto.IdRequestDTO;
-import ru.lab.coursework.dto.ReadingSessionResponseDTO;
-import ru.lab.coursework.dto.ReadingTaskResponseDTO;
-import ru.lab.coursework.dto.ReportResponseDTO;
+import ru.lab.coursework.dto.*;
 
 import java.util.List;
 
 public interface MainService {
+    List<DiaryResponseDto> getDiaries(IdRequestDTO idRequestDTO);
     ReportResponseDTO getReport(IdRequestDTO idRequestDTO);
     List<ReadingTaskResponseDTO> getTasks(IdRequestDTO idRequestDTO, Boolean completed);
-    List<ReadingSessionResponseDTO> getStatistic(IdRequestDTO idRequestDTO);
+    List<ReadingSessionResponseDTO> getReadingSessions(IdRequestDTO idRequestDTO);
+    ReadingTaskDetailsResponseDTO getReadingTaskDetails(IdRequestDTO idRequestDTO);
 }

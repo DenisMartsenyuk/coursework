@@ -98,6 +98,7 @@ CREATE TABLE rd_report
 CREATE TABLE rd_diary
 (
     id            SERIAL PRIMARY KEY,
+    student_id    INTEGER REFERENCES rd_user ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
     name          VARCHAR(256) NOT NULL,
     creation_date timestamp with time zone
 );

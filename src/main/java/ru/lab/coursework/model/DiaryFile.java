@@ -22,5 +22,5 @@ public class DiaryFile {
     private String path;
 
     @Column(name = "creation_date")
-    private Timestamp creation_date;
+    private Timestamp creationDate;
 }
