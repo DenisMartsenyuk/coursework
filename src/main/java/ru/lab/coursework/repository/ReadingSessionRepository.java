@@ -8,4 +8,5 @@ import java.util.List;
 public interface ReadingSessionRepository extends JpaRepository<ReadingSession, Long> {
     void deleteById(Long id);
     List<ReadingSession> findReadingSessionsByReadingTaskId(Long id);
+    List<ReadingSession> findReadingSessionsByReadingTaskIdOrderByDate(Long id);
 }
