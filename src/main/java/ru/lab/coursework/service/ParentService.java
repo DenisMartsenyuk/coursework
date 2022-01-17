@@ -5,6 +5,7 @@ import ru.lab.coursework.dto.*;
 import java.util.List;
 
 public interface ParentService {
+    ChildResponseDTO getChild(IdRequestDTO idRequestDTO);
     List<ChildResponseDTO> getChildren(IdRequestDTO idRequestDTO);
     List<AuthorResponseDTO> getAuthors(IdRequestDTO idRequestDTO);
     List<WritingResponseDTO> getWritings(IdRequestDTO idRequestDTO);

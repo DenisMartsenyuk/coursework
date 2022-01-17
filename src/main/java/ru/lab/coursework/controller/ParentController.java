@@ -16,6 +16,11 @@ public class ParentController {
 
     private final ParentService parentService;
 
+    @GetMapping("/child") //Получить список детей
+    public ResponseEntity<ChildResponseDTO> getChild(@RequestBody IdRequestDTO idRequestDTO) {
+        return new ResponseEntity(parentService.getChild(idRequestDTO), HttpStatus.OK);
+    }
+
     @GetMapping("/children") //Получить список детей
     public ResponseEntity<List<ChildResponseDTO>> getChildren(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(parentService.getChildren(idRequestDTO), HttpStatus.OK);

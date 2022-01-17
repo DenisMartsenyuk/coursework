@@ -3,10 +3,7 @@ package ru.lab.coursework.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.lab.coursework.dto.*;
-import ru.lab.coursework.model.Author;
-import ru.lab.coursework.model.ParentStudent;
-import ru.lab.coursework.model.ReadingTask;
-import ru.lab.coursework.model.Writing;
+import ru.lab.coursework.model.*;
 import ru.lab.coursework.repository.*;
 import ru.lab.coursework.service.ParentService;
 
@@ -22,6 +19,12 @@ public class ParentServiceImpl implements ParentService {
     private final WritingRepository writingRepository;
     private final UserRepository userRepository;
     private final ReadingTaskRepository readingTaskRepository;
+
+    @Override
+    public ChildResponseDTO getChild(IdRequestDTO idRequestDTO) {
+        User user = userRepository.findUserById(idRequestDTO.getId());
+        return ChildResponseDTO.builder().id(user.getId()).name(user.getName()).surname(user.getSurname()).middleName(user.getMiddleName()).build();
+    }
 
     @Override
     public List<ChildResponseDTO> getChildren(IdRequestDTO idRequestDTO) {
