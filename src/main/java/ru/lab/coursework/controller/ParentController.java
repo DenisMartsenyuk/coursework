@@ -16,22 +16,22 @@ public class ParentController {
 
     private final ParentService parentService;
 
-    @GetMapping("/child") //Получить список детей
+    @PostMapping("/child") //Получить список детей
     public ResponseEntity<ChildResponseDTO> getChild(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(parentService.getChild(idRequestDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/children") //Получить список детей
+    @PostMapping("/children") //Получить список детей
     public ResponseEntity<List<ChildResponseDTO>> getChildren(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(parentService.getChildren(idRequestDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/authors") //Получить список авторов
+    @PostMapping("/authors") //Получить список авторов
     public ResponseEntity<List<AuthorResponseDTO>> getAuthors(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(parentService.getAuthors(idRequestDTO),HttpStatus.OK);
     }
 
-    @GetMapping("/writings") //Получить список произведений
+    @PostMapping("/writings") //Получить список произведений
     public ResponseEntity<List<WritingResponseDTO>> getWritings(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity(parentService.getWritings(idRequestDTO),HttpStatus.OK);
     }

@@ -19,12 +19,12 @@ public class AuthController {
         return new ResponseEntity<>(authService.addNewAccount(signUpRequestDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/sign-in") //войти
+    @PostMapping("/sign-in") //войти
     public ResponseEntity<SignInResponseDTO> login(@RequestBody SignInRequestDTO signInRequestDTO) {
         return new ResponseEntity<>(authService.getAccount(signInRequestDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/sign-out") //выйти
+    @PostMapping("/sign-out") //выйти
     public ResponseEntity logout() {
         //todo потом надо сделать
         return new ResponseEntity(HttpStatus.OK); //сбросить токен

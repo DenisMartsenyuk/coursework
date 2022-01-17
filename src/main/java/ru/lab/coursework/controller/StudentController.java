@@ -34,7 +34,7 @@ public class StudentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/generate-diary") //Сформировать дневник
+    @PostMapping("/generate-diary") //Сформировать дневник
     public ResponseEntity<LinkResponseDTO> generateDiary(@RequestBody DiaryGenerateRequestDTO diaryGenerateRequestDTO) {
         return new ResponseEntity<>(studentService.generateDiary(diaryGenerateRequestDTO), HttpStatus.OK);
     }
