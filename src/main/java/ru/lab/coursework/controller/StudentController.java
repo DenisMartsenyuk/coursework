@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.lab.coursework.dto.IdRequestDTO;
-import ru.lab.coursework.dto.ReadingSessionSaveRequestDTO;
-import ru.lab.coursework.dto.ReadingTaskSaveRequestDTO;
-import ru.lab.coursework.dto.ReportSaveRequestDTO;
+import ru.lab.coursework.dto.*;
 import ru.lab.coursework.service.StudentService;
 
 @RestController
@@ -36,8 +33,8 @@ public class StudentController {
     }
 
     @GetMapping("/generate-diary") //Сформировать дневник
-    public ResponseEntity generateDiary() {
-        //todo сделать
+    public ResponseEntity generateDiary(@RequestBody DiaryGenerateRequestDTO diaryGenerateRequestDTO) {
+        studentService.generateDiary(diaryGenerateRequestDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 

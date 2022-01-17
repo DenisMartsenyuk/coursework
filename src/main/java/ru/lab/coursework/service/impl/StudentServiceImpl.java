@@ -2,6 +2,7 @@ package ru.lab.coursework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.lab.coursework.dto.DiaryGenerateRequestDTO;
 import ru.lab.coursework.dto.IdRequestDTO;
 import ru.lab.coursework.dto.ReadingSessionSaveRequestDTO;
 import ru.lab.coursework.dto.ReportSaveRequestDTO;
@@ -11,6 +12,8 @@ import ru.lab.coursework.repository.*;
 import ru.lab.coursework.service.StudentService;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +55,14 @@ public class StudentServiceImpl implements StudentService {
         report.setReview(reportSaveRequestDTO.getReview());
         report.setEditDate(new Timestamp(System.currentTimeMillis()));
         reportRepository.save(report);
+    }
+
+    @Override
+    public void generateDiary(DiaryGenerateRequestDTO diaryGenerateRequestDTO) {
+        List<Report> reports = diaryGenerateRequestDTO.getReadingTasksId().stream().map(reportRepository::findReportByReadingTaskId).collect(Collectors.toList());
+
+//        List<Report> reports = reportRepository.findReportsByReadingTaskId(diaryGenerateRequestDTO.getReadingTasksId());
+//        reports.stream().forEach(x -> System.out.println(x.getCharacters()));
     }
 
     @Override
