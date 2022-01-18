@@ -8,6 +8,7 @@ import ru.lab.coursework.model.*;
 import ru.lab.coursework.repository.*;
 import ru.lab.coursework.service.StudentService;
 
+import java.io.File;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -60,63 +61,5 @@ public class StudentServiceImpl implements StudentService {
         report.setReview(reportSaveRequestDTO.getReview());
         report.setEditDate(new Timestamp(System.currentTimeMillis()));
         reportRepository.save(report);
-    }
-
-    @Override
-    public LinkResponseDTO generateDiary(DiaryGenerateRequestDTO diaryGenerateRequestDTO) {
-        List<Report> reports = diaryGenerateRequestDTO.getReadingTasksId().stream().map(reportRepository::findReportByReadingTaskId).collect(Collectors.toList());
-
-        List<ReportGeneratorDTO> reportsGeneratorList = new ArrayList<>();
-        for (int i = 0; i < reports.size(); ++i) {
-            Report report = reports.get(i);
-            ReportGeneratorDTO reportGenerator = new ReportGeneratorDTO();
-            reportGenerator.setName(report.getReadingTask().getWriting().getName());
-            Author author = report.getReadingTask().getWriting().getAuthor();
-            reportGenerator.setAuthor(author.getName() + " " + author.getSurname() + " " + (author.getMiddleName() == null ? "" : author.getMiddleName()));
-            List<ReadingSession> readingSessions = readingSessionRepository.findReadingSessionsByReadingTaskIdOrderByDate(report.getReadingTask().getId());
-            reportGenerator.setDateStart(readingSessions.get(0).getDate().toString());
-            reportGenerator.setDateEnd(readingSessions.get(readingSessions.size() - 1).getDate().toString());
-            reportGenerator.setCharacters(report.getCharacters());
-            reportGenerator.setPlot(report.getPlot());
-            reportGenerator.setReview(report.getReview());
-            reportGenerator.setReadingSessions(readingSessions.stream().map(x -> ReadingSessionGeneratorDTO.builder().date(x.getDate().toString()).readingStart(x.getReadingStart().toString()).readingEnd(x.getReadingEnd().toString()).duration(Time.valueOf(LocalTime.MIDNIGHT.plus(Duration.between(x.getReadingStart().toLocalTime(), x.getReadingEnd().toLocalTime()))).toString()).build()).collect(Collectors.toList()));
-            reportsGeneratorList.add(reportGenerator);
-        }
-
-        User student = userRepository.findUserById(diaryGenerateRequestDTO.getStudentId());
-        diaryGenerator.setName(diaryGenerateRequestDTO.getName());
-        diaryGenerator.setStudentName(student.getName() + " " + student.getSurname() + " " + (student.getMiddleName() == null ? "" : student.getMiddleName()));
-        diaryGenerator.setSetDate(new Date(System.currentTimeMillis()).toString());
-        diaryGenerator.setReports(reportsGeneratorList);
-        try {
-            String path = diaryGenerator.generateDiary();
-            Diary diary = new Diary();
-            diary.setName(diaryGenerateRequestDTO.getName());
-            diary.setCreationDate(new Timestamp(System.currentTimeMillis()));
-            diary.setStudent(userRepository.findUserById(diaryGenerateRequestDTO.getStudentId()));
-            diary = diaryRepository.save(diary);
-            DiaryFile diaryFile = new DiaryFile();
-            diaryFile.setDiary(diary);
-            diaryFile.setCreationDate(diary.getCreationDate());
-            diaryFile.setPath(path);
-            diaryFileRepository.save(diaryFile);
-            for (Report report : reports) {
-                ReportDiary reportDiary = new ReportDiary();
-                reportDiary.setReport(report);
-                reportDiary.setDiary(diary);
-                reportDiaryRepository.save(reportDiary);
-            }
-            LinkResponseDTO linkResponseDTO = new LinkResponseDTO();
-            linkResponseDTO.setLink("file://" + path);
-            return linkResponseDTO;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public void deleteDiary(IdRequestDTO idRequestDTO) {
-        diaryRepository.deleteById(idRequestDTO.getId());
     }
 }

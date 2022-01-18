@@ -8,4 +8,5 @@ import java.util.List;
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
     void deleteById(Long id);
     List<Diary> findDiariesByStudentId(Long id);
+    Diary findDiaryById(Long id);
 }

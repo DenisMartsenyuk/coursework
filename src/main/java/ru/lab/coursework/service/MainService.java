@@ -13,4 +13,6 @@ public interface MainService {
     List<ReadingSessionResponseDTO> getReadingSessions(IdRequestDTO idRequestDTO);
     AuthorResponseDTO getAuthor(IdRequestDTO idRequestDTO);
     WritingResponseDTO getWriting(IdRequestDTO idRequestDTO);
+    String generateDiary(DiaryGenerateRequestDTO diaryGenerateRequestDTO);
+    void deleteDiary(IdRequestDTO idRequestDTO);
 }

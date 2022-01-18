@@ -1,13 +1,17 @@
 package ru.lab.coursework.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.lab.coursework.dto.*;
 import ru.lab.coursework.service.StudentService;
 
-import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 
 @RestController
 @RequestMapping(value = "/student")
@@ -31,17 +35,6 @@ public class StudentController {
     @PostMapping("/save-report") //Сохранить отчет о прочтении
     public ResponseEntity saveReport(@RequestBody ReportSaveRequestDTO reportSaveRequestDTO) {
         studentService.saveReport(reportSaveRequestDTO);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @PostMapping("/generate-diary") //Сформировать дневник
-    public ResponseEntity<LinkResponseDTO> generateDiary(@RequestBody DiaryGenerateRequestDTO diaryGenerateRequestDTO) {
-        return new ResponseEntity<>(studentService.generateDiary(diaryGenerateRequestDTO), HttpStatus.OK);
-    }
-
-    @PostMapping("/delete-diary") //Удалить дневник
-    public ResponseEntity deleteDiary(@RequestBody IdRequestDTO idRequestDTO) {
-        studentService.deleteDiary(idRequestDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

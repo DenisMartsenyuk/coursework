@@ -8,14 +8,16 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import ru.lab.coursework.component.DiaryGenerator;
 import ru.lab.coursework.dto.ReadingSessionGeneratorDTO;
 import ru.lab.coursework.dto.ReportGeneratorDTO;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 @Component
@@ -31,9 +33,6 @@ public class DiaryGeneratorImpl implements DiaryGenerator {
 
     private Document document;
     private Font font;
-
-//    private String pathDiaries = environment.getProperty("generator.diaries-path");
-//    private String pathFont = environment.getProperty("generator.font-path");
 
 
     @Override
@@ -58,14 +57,14 @@ public class DiaryGeneratorImpl implements DiaryGenerator {
 
     @Override
     public String generateDiary() throws IOException, DocumentException {
-        String path = initDocumentAndFont();
+        String resourcePath = initDocumentAndFont();
         document.open();
         addTitle();
         for (ReportGeneratorDTO report : reports) {
             addReport(report);
         }
         document.close();
-        return path;
+        return resourcePath;
     }
 
     private String initDocumentAndFont() throws IOException, DocumentException {
