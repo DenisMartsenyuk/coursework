@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ParentStudentRepository extends JpaRepository<ParentStudent, Long> {
     List<ParentStudent> findParentStudentsByParentId(Long parentId);
+    List<ParentStudent> findParentStudentsByStudentId(Long studentId);
     ParentStudent findParentStudentByParentIdAndStudentId(Long parentId, Long studentId);
 }

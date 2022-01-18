@@ -5,6 +5,7 @@ import ru.lab.coursework.dto.*;
 import java.util.List;
 
 public interface MainService {
+    String getDiary(IdRequestDTO idRequestDTO);
     List<DiaryResponseDto> getDiaries(IdRequestDTO idRequestDTO);
     ReportResponseDTO getReport(IdRequestDTO idRequestDTO);
     List<ReadingTaskResponseDTO> getTasks(IdRequestDTO idRequestDTO, Boolean completed);

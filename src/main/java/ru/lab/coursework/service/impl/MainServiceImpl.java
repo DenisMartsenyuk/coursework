@@ -1,6 +1,11 @@
 package ru.lab.coursework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.lab.coursework.component.DiaryGenerator;
 import ru.lab.coursework.dto.*;
@@ -9,6 +14,8 @@ import ru.lab.coursework.repository.*;
 import ru.lab.coursework.service.MainService;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -34,9 +41,14 @@ public class MainServiceImpl implements MainService {
     private final UserRepository userRepository;
 
     @Override
+    public String getDiary(IdRequestDTO idRequestDTO) {
+        return diaryFileRepository.findByDiaryId(idRequestDTO.getId()).getPath();
+    }
+
+    @Override
     public List<DiaryResponseDto> getDiaries(IdRequestDTO idRequestDTO) {
         List<Diary> diaries = diaryRepository.findDiariesByStudentId(idRequestDTO.getId());
-        return diaries.stream().map(x -> DiaryResponseDto.builder().id(x.getId()).name(x.getName()).creationDate(x.getCreationDate()).link("file://" + diaryFileRepository.findByDiaryId(x.getId()).getPath()).build()).collect(Collectors.toList());
+        return diaries.stream().map(x -> DiaryResponseDto.builder().id(x.getId()).name(x.getName()).creationDate(x.getCreationDate()).build()).collect(Collectors.toList());
     }
 
     @Override

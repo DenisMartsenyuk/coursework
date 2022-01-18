@@ -21,6 +21,28 @@ public class MainController {
 
     private final MainService mainService;
 
+    @PostMapping("/diary")
+    public ResponseEntity<InputStreamResource> getDiary (@RequestBody IdRequestDTO idRequestDTO) {
+        String path = mainService.getDiary(idRequestDTO);
+        File file = new File(path);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+//        headers.add("Access-Control-Allow-Origin", "*");
+//        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT");
+        headers.add("Access-Control-Allow-Headers", "Content-Type");
+        headers.add("Content-Disposition", "filename=" + path);
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        headers.setContentLength(file.length());
+
+        try {
+            return new ResponseEntity<>(new InputStreamResource(new FileInputStream(file)), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/diaries") //получить все сформированные дневники по id студента (получить все репорты а потом исходя из этого все дневники
     public ResponseEntity<List<DiaryResponseDto>> getDiaries(@RequestBody IdRequestDTO idRequestDTO) {
         return new ResponseEntity<>(mainService.getDiaries(idRequestDTO), HttpStatus.OK);
@@ -69,18 +91,18 @@ public class MainController {
 
     @PostMapping("/generate-diary") //Сформировать дневник
     public ResponseEntity<InputStreamResource> generateDiary(@RequestBody DiaryGenerateRequestDTO diaryGenerateRequestDTO) {
-
+        //todo добавить генерацию дневника
         String path = mainService.generateDiary(diaryGenerateRequestDTO);
         File file = new File(path);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
-        headers.add("Access-Control-Allow-Origin", "*");
-        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT");
-        headers.add("Access-Control-Allow-Headers", "Content-Type");
+//        headers.add("Access-Control-Allow-Origin", "*");
+//        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT");
+//        headers.add("Access-Control-Allow-Headers", "Content-Type");
         headers.add("Content-Disposition", "filename=" + path);
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
+//        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+//        headers.add("Pragma", "no-cache");
+//        headers.add("Expires", "0");
         headers.setContentLength(file.length());
 
         try {

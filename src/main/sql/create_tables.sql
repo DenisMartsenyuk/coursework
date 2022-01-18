@@ -86,7 +86,7 @@ CREATE TABLE rd_report
 (
     id              SERIAL PRIMARY KEY,
     student_id      INTEGER REFERENCES rd_user ON DELETE CASCADE ON UPDATE CASCADE         NOT NULL,
-    reading_task_id INTEGER REFERENCES rd_reading_task ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
+    reading_task_id INTEGER REFERENCES rd_reading_task ON DELETE CASCADE ON UPDATE CASCADE NOT NULL UNIQUE,
     characters      TEXT,
     plot            TEXT,
     review          TEXT,
@@ -107,6 +107,7 @@ CREATE TABLE rd_diary
 CREATE TABLE rd_report_diary
 (
     id        SERIAL PRIMARY KEY,
+    --     todo мб сделать какое нить ограничение целлостности
     report_id INTEGER REFERENCES rd_report ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
     diary_id  INTEGER REFERENCES rd_diary ON DELETE CASCADE ON UPDATE CASCADE  NOT NULL
 
@@ -116,6 +117,7 @@ CREATE TABLE rd_diary_file
 (
     id            SERIAL PRIMARY KEY,
     diary_id      INTEGER REFERENCES rd_diary ON DELETE CASCADE ON UPDATE CASCADE NOT NULL UNIQUE,
+--     todo diary_id менять нельзя
     path          VARCHAR(256)                                                    NOT NULL,
     creation_date timestamp with time zone                                        NOT NULL
 );

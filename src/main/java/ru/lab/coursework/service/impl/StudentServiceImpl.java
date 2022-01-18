@@ -8,13 +8,7 @@ import ru.lab.coursework.model.*;
 import ru.lab.coursework.repository.*;
 import ru.lab.coursework.service.StudentService;
 
-import java.io.File;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +17,16 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService {
 
     private final ReadingSessionRepository readingSessionRepository;
-    private final DiaryRepository diaryRepository;
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
     private final ReadingTaskRepository readingTaskRepository;
-    private final DiaryGenerator diaryGenerator;
-    private final DiaryFileRepository diaryFileRepository;
-    private final ReportDiaryRepository reportDiaryRepository;
+    private final ParentStudentRepository parentStudentRepository;
+
+    @Override
+    public List<ParentResponseDTO> getParents(IdRequestDTO idRequestDTO) {
+        List<ParentStudent> parentStudents = parentStudentRepository.findParentStudentsByStudentId(idRequestDTO.getId());
+        return parentStudents.stream().map(x -> ParentResponseDTO.builder().id(x.getParent().getId()).name(x.getParent().getName()).surname(x.getParent().getSurname()).middleName(x.getParent().getMiddleName()).build()).collect(Collectors.toList());
+    }
 
     @Override
     public void saveSession(ReadingSessionSaveRequestDTO readingSessionSaveRequestDTO) {

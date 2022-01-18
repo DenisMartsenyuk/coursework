@@ -1,17 +1,3 @@
-CREATE TRIGGER rd_check_update_id_user
-    BEFORE UPDATE
-    ON rd_user
-    FOR EACH ROW
-EXECUTE PROCEDURE rd_check_update_const_id();
-
-
-CREATE TRIGGER rd_check_update_id_writing
-    BEFORE UPDATE
-    ON rd_writing
-    FOR EACH ROW
-EXECUTE PROCEDURE rd_check_update_const_id();
-
-
 CREATE TRIGGER rd_check_const_id_role
     BEFORE UPDATE OR DELETE
     ON rd_role
@@ -52,3 +38,25 @@ CREATE TRIGGER rd_check_report
     ON rd_report
     FOR EACH ROW
 EXECUTE PROCEDURE rd_check_report();
+
+
+CREATE TRIGGER rd_check_author
+    BEFORE INSERT OR UPDATE
+    ON rd_author
+    FOR EACH ROW
+EXECUTE PROCEDURE rd_check_author();
+
+
+CREATE TRIGGER rd_check_writing
+    BEFORE INSERT OR UPDATE
+    ON rd_writing
+    FOR EACH ROW
+EXECUTE PROCEDURE rd_check_writing();
+
+
+CREATE TRIGGER rd_check_diary
+    BEFORE INSERT OR UPDATE
+    ON rd_diary
+    FOR EACH ROW
+EXECUTE PROCEDURE rd_check_diary();
+

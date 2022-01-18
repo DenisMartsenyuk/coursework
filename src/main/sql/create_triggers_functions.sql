@@ -1,30 +1,11 @@
-CREATE OR REPLACE FUNCTION rd_check_update_const_id() RETURNS TRIGGER AS $$
-BEGIN
-
-	IF OLD.id != NEW.id THEN
-		RAISE EXCEPTION 'Can not update id column in this table.';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
 CREATE OR REPLACE FUNCTION rd_check_const_id_role() RETURNS TRIGGER AS $$
 BEGIN
 
 	IF TG_OP = 'DELETE' THEN
-		IF OLD.id = 1 OR OLD.id = 2 OR OLD.id = 3 THEN
+		IF OLD.id = 1 OR OLD.id = 2 THEN
 			RAISE EXCEPTION 'Can not delete row with id =  % .', OLD.id;
-		ELSE
-        	RETURN OLD;
         END IF;
-
-    ELSIF TG_OP = 'UPDATE' THEN
-        IF OLD.id = 1 AND NEW.id != 1 OR OLD.id = 2 AND NEW.id != 2 OR OLD.id = 3 AND NEW.id != 3 THEN
-			RAISE EXCEPTION 'Can not update id column in row with id =  % .', OLD.id;
-		ELSE
-        	RETURN NEW;
-        END IF;
+        RETURN OLD;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
@@ -144,6 +125,7 @@ BEGIN
         IF OLD.student_id != NEW.student_id OR OLD.reading_task_id != NEW.reading_task_id THEN
             RAISE EXCEPTION 'Can not update fields: student_id, reading_task_id.';
         END IF;
+        UPDATE rd_reading_task SET completed = TRUE WHERE id = NEW.reading_task_id;
 
     ELSIF TG_OP = 'INSERT' THEN
         IF (SELECT id FROM rd_user_role WHERE user_id = NEW.student_id AND role_id = 2) IS NULL THEN
@@ -165,8 +147,70 @@ BEGIN
     	IF (SELECT id FROM rd_report WHERE student_id = NEW.student_id AND reading_task_id = NEW.reading_task_id) IS NOT NULL THEN
             RAISE EXCEPTION 'Can not insert row, because this combination student-reading_task is already exist.';
         END IF;
+
+        UPDATE rd_reading_task SET completed = TRUE WHERE id = NEW.reading_task_id;
     END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION rd_check_author() RETURNS TRIGGER AS $$
+BEGIN
+
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.parent_id != NEW.parent_id THEN
+            RAISE EXCEPTION 'Can not update fields: parent_id.';
+        END IF;
+
+    ELSIF TG_OP = 'INSERT' THEN
+        IF (SELECT id FROM rd_user_role WHERE user_id = NEW.parent_id AND role_id = 1) IS NULL THEN
+            RAISE EXCEPTION 'Can not insert row, because user with id =  % is not parent.', NEW.parent_id;
+        END IF;
+
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION rd_check_writing() RETURNS TRIGGER AS $$
+BEGIN
+
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.parent_id != NEW.parent_id THEN
+            RAISE EXCEPTION 'Can not update fields: parent_id.';
+        END IF;
+
+    ELSIF TG_OP = 'INSERT' THEN
+        IF (SELECT id FROM rd_user_role WHERE user_id = NEW.parent_id AND role_id = 1) IS NULL THEN
+            RAISE EXCEPTION 'Can not insert row, because user with id =  % is not parent.', NEW.parent_id;
+        END IF;
+
+    END IF;
+
+    IF (SELECT id FROM rd_author WHERE parent_id = NEW.parent_id AND id = NEW.author_id) IS NULL THEN
+        RAISE EXCEPTION 'Can not insert row, because author with id = % does not belong to the parent with id = %.', NEW.author_id, NEW.parent_id;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION rd_check_diary() RETURNS TRIGGER AS $$
+BEGIN
+
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.student_id != NEW.student_id THEN
+            RAISE EXCEPTION 'Can not update fields: student_id.';
+        END IF;
+
+    ELSIF TG_OP = 'INSERT' THEN
+        IF (SELECT id FROM rd_user_role WHERE user_id = NEW.student_id AND role_id = 2) IS NULL THEN
+            RAISE EXCEPTION 'Can not insert row, because user with id =  % is not student.', NEW.student_id;
+        END IF;
+
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
