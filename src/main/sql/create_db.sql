@@ -3,3 +3,4 @@
 \i create_id_triggers.sql
 \i insert_default_information.sql
 \i create_triggers.sql
+\i create_index.sql

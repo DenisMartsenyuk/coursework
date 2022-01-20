@@ -29,7 +29,7 @@ public class AuthController {
             return new ResponseEntity<>(authService.getAccount(signInRequestDTO), HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(new ExceptionResponseDTO("Не правильно введен логин или пароль!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ExceptionResponseDTO("Неправильно введен логин или пароль!"), HttpStatus.BAD_REQUEST);
         }
     }
 
