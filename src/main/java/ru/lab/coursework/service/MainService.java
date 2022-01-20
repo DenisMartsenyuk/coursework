@@ -1,7 +1,9 @@
 package ru.lab.coursework.service;
 
+import com.itextpdf.text.DocumentException;
 import ru.lab.coursework.dto.*;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MainService {
@@ -14,6 +16,6 @@ public interface MainService {
     List<ReadingSessionResponseDTO> getReadingSessions(IdRequestDTO idRequestDTO);
     AuthorResponseDTO getAuthor(IdRequestDTO idRequestDTO);
     WritingResponseDTO getWriting(IdRequestDTO idRequestDTO);
-    String generateDiary(DiaryGenerateRequestDTO diaryGenerateRequestDTO);
+    String generateDiary(DiaryGenerateRequestDTO diaryGenerateRequestDTO) throws IOException, DocumentException;
     void deleteDiary(IdRequestDTO idRequestDTO);
 }

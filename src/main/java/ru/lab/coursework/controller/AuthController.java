@@ -44,10 +44,10 @@ public class AuthController {
     }
 
     @PostMapping("/disconnect") //отсоеденить родителя и ребенка
-    public ResponseEntity disconnect(@RequestBody ConnectionRequestDTO connectionRequestDTO) {
+    public ResponseEntity<?> disconnect(@RequestBody ConnectionRequestDTO connectionRequestDTO) {
         try {
             authService.disconnect(connectionRequestDTO);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ExceptionResponseDTO("Не удалось отключить ребенка от родителя."), HttpStatus.BAD_REQUEST);
         }
