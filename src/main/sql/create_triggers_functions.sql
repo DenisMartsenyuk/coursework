@@ -1,3 +1,12 @@
+CREATE OR REPLACE FUNCTION rd_check_update_id() RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.id != NEW.id THEN
+        RAISE EXCEPTION 'Can not update id column in this table.';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION rd_check_const_id_role() RETURNS TRIGGER AS $$
 BEGIN
 
@@ -210,6 +219,18 @@ BEGIN
             RAISE EXCEPTION 'Can not insert row, because user with id =  % is not student.', NEW.student_id;
         END IF;
 
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION rd_check_diary_file() RETURNS TRIGGER AS $$
+BEGIN
+
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.diary_id != NEW.diary_id THEN
+            RAISE EXCEPTION 'Can not update fields: diary_id.';
+        END IF;
     END IF;
     RETURN NEW;
 END;

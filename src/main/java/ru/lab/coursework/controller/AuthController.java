@@ -15,36 +15,42 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/sign-up") //регистрация
-    public ResponseEntity<SignUpResponseDTO> register(@RequestBody SignUpRequestDTO signUpRequestDTO) {
-        return new ResponseEntity<>(authService.addNewAccount(signUpRequestDTO), HttpStatus.OK);
+    public ResponseEntity<?> register(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+        try {
+            return new ResponseEntity<>(authService.addNewAccount(signUpRequestDTO), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ExceptionResponseDTO("Пользватель с таким логином или почтой уже существует!"), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/sign-in") //войти
-    public ResponseEntity<SignInResponseDTO> login(@RequestBody SignInRequestDTO signInRequestDTO) {
-        return new ResponseEntity<>(authService.getAccount(signInRequestDTO), HttpStatus.OK);
-    }
-
-    @PostMapping("/sign-out") //выйти
-    public ResponseEntity logout() {
-        //todo потом надо сделать
-        return new ResponseEntity(HttpStatus.OK); //сбросить токен
+    public ResponseEntity<?> login(@RequestBody SignInRequestDTO signInRequestDTO) {
+        try {
+            return new ResponseEntity<>(authService.getAccount(signInRequestDTO), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(new ExceptionResponseDTO("Не правильно введен логин или пароль!"), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/connect") //соединить родителя и ребенка
-    public ResponseEntity connect(@RequestBody ConnectionRequestDTO connectionRequestDTO) {
-        authService.connect(connectionRequestDTO);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<?> connect(@RequestBody ConnectionRequestDTO connectionRequestDTO) {
+        try {
+            authService.connect(connectionRequestDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ExceptionResponseDTO("Не удалось подключить ребенка к родителю."), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/disconnect") //отсоеденить родителя и ребенка
     public ResponseEntity disconnect(@RequestBody ConnectionRequestDTO connectionRequestDTO) {
-        authService.disconnect(connectionRequestDTO);
-        return new ResponseEntity(HttpStatus.OK);
+        try {
+            authService.disconnect(connectionRequestDTO);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ExceptionResponseDTO("Не удалось отключить ребенка от родителя."), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PostMapping("/disable") //сделать неактивным
-    public ResponseEntity setDisabled() {
-        //todo потом надо сделать
-        return new ResponseEntity(HttpStatus.OK);
-    }
 }

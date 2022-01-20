@@ -60,3 +60,9 @@ CREATE TRIGGER rd_check_diary
     FOR EACH ROW
 EXECUTE PROCEDURE rd_check_diary();
 
+CREATE TRIGGER rd_check_diary_file
+    BEFORE UPDATE
+    ON rd_diary_file
+    FOR EACH ROW
+EXECUTE PROCEDURE rd_check_diary_file();
+

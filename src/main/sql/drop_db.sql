@@ -20,4 +20,8 @@ DROP TABLE rd_reading_session CASCADE;
 
 DROP TABLE rd_report CASCADE;
 
-DROP TABLE rd_report_file CASCADE;
+DROP TABLE rd_diary CASCADE ;
+
+DROP TABLE rd_report_diary CASCADE;
+
+DROP TABLE rd_diary_file CASCADE;

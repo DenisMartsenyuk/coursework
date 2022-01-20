@@ -1,12 +1,3 @@
-CREATE OR REPLACE FUNCTION rd_check_update_id() RETURNS TRIGGER AS $$
-BEGIN
-    IF OLD.id != NEW.id THEN
-        RAISE EXCEPTION 'Can not update id column in this table.';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER a_check_update_id_author
     BEFORE UPDATE
     ON rd_author
